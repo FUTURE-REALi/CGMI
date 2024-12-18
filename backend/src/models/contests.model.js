@@ -1,0 +1,43 @@
+import mongoose,{Schema} from "mongoose";
+const contestSchema = new Schema({
+    name:{
+        type:String,
+        required:true,
+        unique:true,
+        trim:true,
+        index:true
+    },
+    description:{
+        type:String,
+        required:true,
+        trim:true
+    },
+    startTime:{
+        type:Date,
+        required:true
+    },
+    endTime:{
+        type:Date,
+        required:true
+    },
+    platform:{
+        type:String,
+        required:true,
+        enum:["Codeforces","Codechef","Leetcode","Hackerrank","Geeksforgeeks","CodingNinjas"],
+    },
+    difficulty:{
+        type:String,
+        enum:["Easy","Medium","Hard"],
+        required:true
+    },
+    problems:[
+        {type:Schema.Types.ObjectId,ref:'Problem'}
+    ],
+    participants:[
+        {type:Schema.Types.ObjectId,ref:'User'}
+    ],
+    leaderboard:[
+        {type:Schema.Types.ObjectId,ref:'Leaderboard'}
+    ],
+});
+export const contests = mongoose.model('contest',contestSchema);
