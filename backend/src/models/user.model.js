@@ -1,4 +1,5 @@
 import mongoose, {Schema} from 'mongoose';
+import bcrypt from "bcryptjs";
 const userSchema = new Schema({
     username: {
         type: String,
@@ -23,7 +24,12 @@ const userSchema = new Schema({
     },
     password: {
         type: String,
-        required: true
+        required: true,
+        trim: true,
+    },
+    coverImage: {
+        type: String,
+        default: '/images/cover.jpg'
     },
     avatar: {
         type: String,
@@ -70,4 +76,18 @@ const userSchema = new Schema({
         enum: [codeforces, codechef, leetcode, hackerrank, geeksforgeeks, codingninjas],
     },
 });
+
+userSchema.pre('save', async function(next) {
+    if (!this.isModified('password')) {
+        next();
+    }
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    return next();
+});
+
+userSchema.methods.matchPassword = async function(enteredPassword) {
+    return await bcrypt.compare(enteredPassword, this.password);
+};
+
 export const User = mongoose.model('User', userSchema);
