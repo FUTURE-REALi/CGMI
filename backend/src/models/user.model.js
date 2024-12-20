@@ -10,7 +10,7 @@ const userSchema = new Schema({
     },
     fullname: { 
         type: String,
-        required: true,
+        // required: true,
         trim: true,
         index: true
     },
@@ -73,7 +73,7 @@ const userSchema = new Schema({
     },
     accountLinked: {
         type: [String],
-        enum: [codeforces, codechef, leetcode, hackerrank, geeksforgeeks, codingninjas],
+        enum: ["codeforces", "codechef", "leetcode", "hackerrank", "geeksforgeeks", "codingninjas"],
     },
 });
 
