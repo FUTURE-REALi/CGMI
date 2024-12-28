@@ -27,14 +27,15 @@ Registers a new user with the provided credentials.
     "password": "hashed_password_value"
   }
 }
+```
 
-# /users/login Endpoint
+# /user/login Endpoint
 
 ## Description
-Authenticates an existing user with the provided credentials.
+Logs in a user with the provided credentials.
 
 ## Method & Endpoint
-**POST** `/users/login`
+**POST** `/user/login`
 
 ## Required Data
 - **email** (string, valid email, required)
@@ -56,3 +57,4 @@ Authenticates an existing user with the provided credentials.
     "email": "john@example.com"
   }
 }
+```
