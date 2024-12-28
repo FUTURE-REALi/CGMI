@@ -58,3 +58,26 @@ Logs in a user with the provided credentials.
   }
 }
 ```
+
+# /user/logout Endpoint
+
+## Description
+Logs out a user by blacklisting the provided token.
+
+## Method & Endpoint
+**POST** `/user/logout`
+
+## Required Data
+- **token** (string, required)
+
+## Possible Status Codes
+- **200**: User logout successful
+- **400**: Validation error (e.g., missing required fields)
+- **500**: Internal server error
+
+## Example Response
+```json
+{
+  "message": "Logout successful"
+}
+```
