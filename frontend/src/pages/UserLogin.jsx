@@ -11,10 +11,10 @@ const UserLogin = () => {
         <div>
             <div className="min-h-screen flex items-center justify-center bg-gray-100">
                 <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-                    <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+                    <h2 className="text-4xl font-bold mb-6 text-center">Login</h2>
                     <form>
                         <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="identifier">
+                            <label className="block text-gray-700 text-xl font-bold mb-2" htmlFor="identifier">
                                 {useEmail ? 'Email' : 'Username'}
                             </label>
                             <input
@@ -32,7 +32,7 @@ const UserLogin = () => {
                             </button>
                         </div>
                         <div className="mb-6">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                            <label className="block text-gray-700 text-xl font-bold mb-2" htmlFor="password">
                                 Password
                             </label>
                             <input
