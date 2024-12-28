@@ -27,3 +27,32 @@ Registers a new user with the provided credentials.
     "password": "hashed_password_value"
   }
 }
+
+# /users/login Endpoint
+
+## Description
+Authenticates an existing user with the provided credentials.
+
+## Method & Endpoint
+**POST** `/users/login`
+
+## Required Data
+- **email** (string, valid email, required)
+- **password** (string, minimum 6 characters, required)
+
+## Possible Status Codes
+- **200**: User login successful
+- **400**: Validation error (e.g., missing required fields)
+- **401**: Invalid email or password
+- **500**: Internal server error
+
+## Example Response
+```json
+{
+  "token": "sample_token_here",
+  "user": {
+    "_id": "unique_user_id_here",
+    "username": "john_doe",
+    "email": "john@example.com"
+  }
+}
