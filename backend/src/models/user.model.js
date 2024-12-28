@@ -9,11 +9,8 @@ const userSchema = new Schema({
         trim: true,
         index: true,
     },
-    fullname: { 
-        type: String,
-        // required: true,
-        trim: true,
-        index: true
+    fullname: {
+        firstname: {type: String, required: true}, lastname: {type: String, required: true},
     },
     email: {
         type: String,
