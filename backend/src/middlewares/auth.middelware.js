@@ -1,6 +1,6 @@
-import { userModel } from "../models/user.model";
+import { userModel } from "../models/user.model.js";
 import jwt from 'jsonwebtoken';
-import { blackListTokenModel } from '../models/blackListToken.model';
+import {BlackListToken} from '../models/blackListToken.model.js';
 
 
 export const authUser = async (req, res, next) => {
@@ -11,7 +11,7 @@ export const authUser = async (req, res, next) => {
     }
 
 
-    const isBlacklisted = await blackListTokenModel.findOne({ token: token });
+    const isBlacklisted = await BlackListToken.findOne({ token: token });
 
     if (isBlacklisted) {
         return res.status(401).json({ message: 'Unauthorized' });
