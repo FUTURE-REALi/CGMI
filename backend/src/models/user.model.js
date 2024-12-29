@@ -83,6 +83,18 @@ userSchema.methods.generateAuthToken = function() {
     }); 
 };
 
+userSchema.methods.getFriendsMessages = async function(friendId) {
+    return await Chat.find({
+        $or: [
+            { sender: this._id, receiver: friendId },
+            { sender: friendId, receiver: this._id },
+        ],
+    }).sort({ createdAt: 1 });
+};
+
+userSchema.methods.isFriendWith = async function(userId) {
+    return await this.friends.includes(userId);
+};
 
 userSchema.pre('save', async function(next) {
     if (!this.isModified('password')) {

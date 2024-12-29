@@ -6,25 +6,29 @@ import UserSignUp from './pages/UserSignUp';
 import LandingPage from './pages/LandingPage';
 import UserProtectedWrapper from './pages/UserProtectedWrapper';
 import UserLogout from './pages/UserLogout';
+import Navbar from './components/NavBar';
+import Message from './components/Message';
 
 const App = () => {
   return (
     <div>
-      <Routes>
-        <Route path="/" element= {<LandingPage/>} />
-        <Route path="/login" element= {<UserLogin/>} />
-        <Route path="/signup" element= {<UserSignUp/>} />
-        <Route path="/home" element= {
-          <UserProtectedWrapper>
-            <HomePage/>
-          </UserProtectedWrapper>
-        } />
-        <Route path="/logout" element= {
-          <UserProtectedWrapper>
-            <UserLogout/>
-          </UserProtectedWrapper>} />
-
-      </Routes>
+        <Navbar/>
+        <Routes>
+          <Route path="/" element= {<LandingPage/>} />
+          <Route path="/login" element= {<UserLogin/>} />
+          <Route path="/signup" element= {<UserSignUp/>} />
+          <Route path="/home" element= {
+            <UserProtectedWrapper>
+              <HomePage/>
+            </UserProtectedWrapper>
+          } />
+          <Route path="/logout" element= {
+            <UserProtectedWrapper>
+              <UserLogout/>
+            </UserProtectedWrapper>}
+          />
+          <Route path="/message" element = {<Message/>} />
+        </Routes>
     </div>
   )
 }
