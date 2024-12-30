@@ -8,15 +8,19 @@ import UserProtectedWrapper from './pages/UserProtectedWrapper';
 import UserLogout from './pages/UserLogout';
 import Navbar from './components/NavBar';
 import Message from './components/Message';
+import LeaderBoard from './pages/LeaderBoard';  
 
 const App = () => {
   return (
     <div>
         <Navbar/>
         <Routes>
-          <Route path="/" element= {<LandingPage/>} />
-          <Route path="/login" element= {<UserLogin/>} />
-          <Route path="/signup" element= {<UserSignUp/>} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<UserLogin />} />
+          <Route path="/signup" element={<UserSignUp />} />
+        <Route path="/leaderboard" element={<LeaderBoard />} /> {/* Add this route */}
+        <Route path="/leaderboard/global" element={<LeaderBoard />} />
+        <Route path="/leaderboard/friends" element={<LeaderBoard />} />
           <Route path="/home" element= {
             <UserProtectedWrapper>
               <HomePage/>
@@ -32,4 +36,5 @@ const App = () => {
     </div>
   )
 }
+
 export default App;
