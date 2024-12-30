@@ -40,60 +40,62 @@ const Message = () => {
     );
 
     return (
-        <div className="w-full h-96 flex bg-gray-100 shadow-lg rounded-2xl">
-            <div className="w-1/3 bg-white shadow-lg rounded-l-lg">
-                <div className="p-4 font-bold ml-6">Chats</div>
-                <input
-                    type="text"
-                    className="px-2 border rounded-lg w-4/5 mb-2 ml-3"
-                    placeholder="Search"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                <ul>
-                    {filteredFriends.map((friend) => (
-                        <li
-                            key={friend.id}
-                            className={`p-2 cursor-pointer flex items-center ${currentFriend === friend.id ? "bg-gray-200" : ""}`}
-                            onClick={() => setCurrentFriend(friend.id)}
-                        >
-                            <img src={friend.image} alt={friend.name} className="h-8 w-8 rounded-full mr-2" />
-                            {friend.name}
-                        </li>
-                    ))}
-                </ul>
-            </div>
-            <div className="w-2/3 flex flex-col h-full">
-                <div className="flex-grow overflow-auto p-4">
-                    {messages[currentFriend].map((msg, index) => (
-                        <div
-                            key={index}
-                            className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"} mb-2`}
-                        >
-                            <div
-                                className={`max-w-xs p-2 rounded-lg ${
-                                    msg.sender === "user" ? "bg-blue-500 text-white" : "bg-gray-300 text-black"
-                                }`}
-                            >
-                                {msg.text}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                <div className="p-4 bg-white flex">
+        <div className="p-4 min-h-full flex justify-center items-center">
+            <div className="flex bg-gray-100 shadow-lg rounded-2xl h-80 w-xs">
+                <div className="w-1/4 bg-white shadow-lg rounded-l-lg">
+                    <div className="p-4 font-bold mx-2">Chats</div>
                     <input
                         type="text"
-                        className="flex-grow p-2 w-2/3 border rounded-lg mr-2"
-                        placeholder="Type a message"
-                        value={newMessage}
-                        onChange={(e) => setNewMessage(e.target.value)}
+                        className="px-2 border rounded-lg w-4/5 mb-2 ml-3"
+                        placeholder="Search"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
                     />
-                    <button
-                        className="p-2 bg-blue-500 text-white rounded-lg"
-                        onClick={handleSendMessage}
-                    >
-                        Send
-                    </button>
+                    <ul>
+                        {filteredFriends.map((friend) => (
+                            <li
+                                key={friend.id}
+                                className={`p-2 cursor-pointer flex items-center ${currentFriend === friend.id ? "bg-gray-200" : ""}`}
+                                onClick={() => setCurrentFriend(friend.id)}
+                            >
+                                <img src={friend.image} alt={friend.name} className="h-6 w-6 rounded-full mr-1" />
+                                <h3 className='text-xs'>{friend.name}</h3>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+                <div className="w-3/4 flex flex-col h-full">
+                    <div className="flex-grow overflow-auto p-4">
+                        {messages[currentFriend].map((msg, index) => (
+                            <div
+                                key={index}
+                                className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"} mb-2`}
+                            >
+                                <div
+                                    className={`max-w-xs p-2 rounded-lg ${
+                                        msg.sender === "user" ? "bg-blue-500 text-white" : "bg-gray-300 text-black"
+                                    }`}
+                                >
+                                    {msg.text}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="p-1 bg-white flex">
+                        <input
+                            type="text"
+                            className="flex-grow px-2 w-2/3 border rounded-lg mr-2"
+                            placeholder="Type a message"
+                            value={newMessage}
+                            onChange={(e) => setNewMessage(e.target.value)}
+                        />
+                        <button
+                            className="p-2 bg-blue-500 text-white rounded-lg"
+                            onClick={handleSendMessage}
+                        >
+                            Send
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

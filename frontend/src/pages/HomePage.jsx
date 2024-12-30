@@ -4,9 +4,11 @@ import Message from '../components/Message';
 
 const HomePage = () => {
   return (
-    <div className="relative flex justify-end items-end h-screen p-4 space-x-4">
-      <div className="flex flex-col items-end space-y-4 w-96">
+    <div className="relative flex flex-col items-end h-screen p-4 space-y-2">
+      <div className="w-96 h-1/2">
         <FriendComp />
+      </div>
+      <div className="w-96 h-1/2">
         <Message />
       </div>
     </div>
