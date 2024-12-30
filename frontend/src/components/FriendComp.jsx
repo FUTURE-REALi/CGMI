@@ -7,12 +7,7 @@ import { useContext } from 'react';
 const FriendComp = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [activeTab, setActiveTab] = useState('friends');
-
-    const friends = [
-        { name: "Alice", status: "Online" },
-        { name: "Bob", status: "Offline" },
-    ];
-    const [friendsList, setFriendsList] = useState(friends);
+    const [friendsList, setFriendsList] = useState([]);
 
     const addFriend = (newFriend) => {
         setFriendsList([...friendsList, newFriend]);
@@ -63,6 +58,15 @@ const FriendComp = () => {
             setAddFriend('');
         }
     }
+
+    const getHangleSubmit = async(e) => {
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/users/getfriend`);
+
+        if(response.status === 200){
+            addFriend(response.data);
+            setAddFriend('');
+        }
+    }
     
 
     return (
@@ -74,7 +78,6 @@ const FriendComp = () => {
                 <button onClick={
                     () => {
                         setActiveTab('addfriend')
-                        reqHandleSubmit()
                     }
 
                 } className="border-b-2 border-blue-500">
@@ -94,17 +97,23 @@ const FriendComp = () => {
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
-                    <ul>
-                        {friends
-                            .filter(friend => friend.name.toLowerCase().includes(searchTerm.toLowerCase()))
-                            .map(friend => (
-                                <li key={friend.name} className="p-2 cursor-pointer flex items-center">
-                                    <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                                    <div>{friend.name}</div>
-                                    <div className="ml-auto">{friend.status}</div>
-                                </li>
-                            ))}
-                    </ul>
+                    {Array.isArray(friendsList) && friendsList.length > 0 ? (
+                        <ul>
+                            {friendsList
+                                .filter(friend =>
+                                    friend.name.toLowerCase().includes(searchTerm.toLowerCase())
+                                )
+                                .map((friend, index) => (
+                                    <li key={index} className="p-2 cursor-pointer flex items-center">
+                                        <div className="mr-2">{friend.name}</div>
+                                        <div className="ml-auto">{friend.status}</div>
+                                    </li>
+                                ))
+                            }
+                        </ul>
+                    ) : (
+                        <p>No friends found.</p>
+                    )}
                 </div>
             )}
 
