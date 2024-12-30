@@ -44,7 +44,6 @@ export const loginUser = async (req, res, next) => {
     const token = user.generateAuthToken();
     res.cookie('token', token);
     res.status(200).json({ token, user });
-    console.log(token);
 }
 
 export const getUserProfile = async (req, res, next) => {
@@ -97,8 +96,14 @@ export const addFriend = async (req, res, next) => {
 }
 
 export const getFriends = async (req, res, next) => {
-    const user = req.user;
-    const friends = await userModel.find({ _id: { $in: user.friends } });
-    const friendUsernames = friends.map(friend => friend.username); // Extract usernames
-    res.status(200).json(friendUsernames);
+    try {
+        const user = await userModel.findById(req.user._id).populate('friends', 'username');
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        const friendUsernames = user.friends.map(friend => friend.username);
+        res.status(200).json(friendUsernames);
+    } catch (error) {
+        next(error);
+    }
 };

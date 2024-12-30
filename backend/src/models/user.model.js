@@ -57,10 +57,10 @@ const userSchema = new Schema({
         { type: Schema.Types.ObjectId, ref: 'Contest', default: [] }
     ],
     friends: [
-        { type: Schema.Types.ObjectId, ref: 'User', default: [] }
+        { type: Schema.Types.ObjectId, ref: 'user', default: [] }
     ],
     requests: [
-        { type: Schema.Types.ObjectId, ref: 'User' }
+        { type: Schema.Types.ObjectId, ref: 'user' }
     ],
     notifications: [
         { type: Schema.Types.ObjectId, ref: 'Notification' , default: [] }
