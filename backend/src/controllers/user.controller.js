@@ -39,6 +39,10 @@ export const loginUser = async(req,res,next) => {
 
     const isMatch = await user.matchPassword (password);
 
+    if(!isMatch){
+        return res.status(401).json({message: 'Invalid email or password'});
+    }
+
     const token = user.generateAuthToken();
     res.cookie('token',token);
     res.status(200).json({token,user});
@@ -65,7 +69,12 @@ export const logoutUser = async(req,res,next) => {
 }
 
 export const addFriend = async(req,res,next) => {
-    const {friendUserName} = req.body;
+    const { friendUserName } = req.body;
+
+    if (!friendUserName) {
+        return res.status(400).json({ message: 'Missing friendUserName' });
+    }
+
     const friend = await userModel.findOne({username: friendUserName});
 
     const user = req.user;
@@ -73,6 +82,7 @@ export const addFriend = async(req,res,next) => {
     if(!friend){
         return res.status(404).json({message: 'User not found'});
     }
+
 
     if(user.friends.includes(friend._id)){
         return res.status(400).json({message: 'Already friends'});
@@ -85,4 +95,10 @@ export const addFriend = async(req,res,next) => {
     await friend.save();
     res.status(200).json({message: 'Friend added successfully'});
 
+}
+
+export const getFriends = async(req,res,next) => {
+    const user = req.user;
+    const friends = await userModel.find({_id: {$in: user.friends}});
+    res.status(200).json(friends);
 }

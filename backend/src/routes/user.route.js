@@ -2,7 +2,7 @@ import express from 'express';
 
 const router = express.Router();
 import {body} from 'express-validator';
-import { getUserProfile, loginUser, registerUser, logoutUser, addFriend } from '../controllers/user.controller.js';
+import { getUserProfile, loginUser, registerUser, logoutUser, addFriend, getFriends} from '../controllers/user.controller.js';
 import { authUser } from '../middlewares/auth.middelware.js';
 
 router.post('/register',[
@@ -30,6 +30,6 @@ loginUser
 
 router.get('/profile', authUser, getUserProfile);
 router.get('/logout', authUser,logoutUser);
-
-router.get('/addfriend', authUser, addFriend);
+router.get('/getfriend', authUser, getFriends);
+router.post('/addfriend', authUser, addFriend);
 export default router;

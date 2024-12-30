@@ -51,22 +51,22 @@ const userSchema = new Schema({
         type: Date
     },
     solvedProblems: [
-        { type: Schema.Types.ObjectId, ref: 'Problem' }
+        { type: Schema.Types.ObjectId, ref: 'Problem', default: []}
     ],
     contests: [
-        { type: Schema.Types.ObjectId, ref: 'Contest' }
+        { type: Schema.Types.ObjectId, ref: 'Contest', default: [] }
     ],
     friends: [
-        { type: Schema.Types.ObjectId, ref: 'User' }
+        { type: Schema.Types.ObjectId, ref: 'User', default: [] }
     ],
     requests: [
         { type: Schema.Types.ObjectId, ref: 'User' }
     ],
     notifications: [
-        { type: Schema.Types.ObjectId, ref: 'Notification' }
+        { type: Schema.Types.ObjectId, ref: 'Notification' , default: [] }
     ],
     messages: [
-        { type: Schema.Types.ObjectId, ref: 'Message' }
+        { type: Schema.Types.ObjectId, ref: 'Message' , default: [] }
     ],
     team: {
         type: Schema.Types.ObjectId, ref: 'Team'
@@ -78,7 +78,7 @@ const userSchema = new Schema({
 });
 
 userSchema.methods.generateAuthToken = function() {
-    return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+    return jwt.sign({_id: this._id }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRE,
     }); 
 };
