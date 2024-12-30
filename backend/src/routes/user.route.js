@@ -2,7 +2,7 @@ import express from 'express';
 
 const router = express.Router();
 import {body} from 'express-validator';
-import { getUserProfile, loginUser, registerUser, logoutUser } from '../controllers/user.controller.js';
+import { getUserProfile, loginUser, registerUser, logoutUser, addFriend } from '../controllers/user.controller.js';
 import { authUser } from '../middlewares/auth.middelware.js';
 
 router.post('/register',[
@@ -13,13 +13,23 @@ registerUser
 );
 
 router.post('/login', [
-    body('email').isEmail().withMessage('Invalid email'),
+    body('username').custom((value, { req }) => {
+        if (!value) {
+            if (!req.body.email) {
+                throw new Error('Either username or email is required');
+            }
+            return true; // Email will be validated separately
+        }
+        return true;
+    }),
+    body('email').if(body('username').isEmpty()).isEmail().withMessage('Invalid email'),
     body('password').isLength({min:6}).withMessage('Password must be at least 6 characters long')
 ],
 loginUser
 );
 
 router.get('/profile', authUser, getUserProfile);
-router.get('./logout', authUser,logoutUser);
+router.get('/logout', authUser,logoutUser);
 
+router.get('/addfriend', authUser, addFriend);
 export default router;

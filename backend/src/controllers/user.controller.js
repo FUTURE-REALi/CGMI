@@ -9,14 +9,15 @@ export const registerUser = async (req, res, next) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const {username, email, password} = req.body;
+    const {fullname, username, email, password} = req.body;
 
     const hashedPassword = await userModel.hashPassword(password);
 
     try {
-        const newUser = await createUser(username, email, hashedPassword);
+        const newUser = await createUser(fullname.firstname, fullname.lastname, username, email, hashedPassword);
         const token = newUser.generateAuthToken();
         res.status(201).json({token,newUser});
+        console.log(newUser);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -28,9 +29,9 @@ export const loginUser = async(req,res,next) => {
         return res.status(400).json({errors: error.array()});
     }
 
-    const {email, password} = req.body;
+    const {email,username, password} = req.body;
 
-    const user = await userModel.findOne({email}).select('+password');
+    const user = await userModel.findOne({ $or: [{ email }, { username }] }).select('+password');
 
     if(!user){
         return res.status(401).json({message: 'Invalid email or password'});
@@ -61,4 +62,27 @@ export const logoutUser = async(req,res,next) => {
     } catch (error) {
         res.status(500).json({message: error.message});
     }
+}
+
+export const addFriend = async(req,res,next) => {
+    const {friendUserName} = req.body;
+    const friend = await userModel.findOne({username: friendUserName});
+
+    const user = req.user;
+
+    if(!friend){
+        return res.status(404).json({message: 'User not found'});
+    }
+
+    if(user.friends.includes(friend._id)){
+        return res.status(400).json({message: 'Already friends'});
+    }
+
+    user.friends.push(friend._id);
+    friend.friends.push(user._id);
+
+    await user.save();
+    await friend.save();
+    res.status(200).json({message: 'Friend added successfully'});
+
 }
