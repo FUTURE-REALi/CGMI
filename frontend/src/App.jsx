@@ -9,9 +9,7 @@ import UserLogout from './pages/UserLogout';
 import Navbar from './components/NavBar';
 import Message from './components/Message';
 import LeaderBoard from './pages/LeaderBoard'; 
-import Calendar from './components/Calendar';
-import ProblemsSolved from './components/ProblemsSolved'; 
-
+import Contest from './pages/Contest';
 const App = () => {
   return (
     <div>
@@ -33,6 +31,7 @@ const App = () => {
               <UserLogout/>
             </UserProtectedWrapper>}
           />
+          <Route path = "/contest" element = {<Contest/>} />
           <Route path="/message" element = {<Message/>} />
         </Routes>
     </div>

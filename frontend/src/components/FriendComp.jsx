@@ -71,7 +71,7 @@ const FriendComp = () => {
     };
     useEffect(() => {
         handleGetFriends();
-    }, [friendsList]);
+    }, []);
     
 
     return (
