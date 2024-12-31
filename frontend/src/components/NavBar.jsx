@@ -1,14 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { Menu, Search, Code2, MessageSquare, Bell, User,Settings, LogOut, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const Navbar = () => {
   const [showDropdown, setShowDropDown] = useState(false);
+  const [user, setUser] = useState({});
   
   const toggleDropdown = ()=>{
     setShowDropDown((prev) => !prev);
   }
 
+  const UserName = () => {
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/users/profile`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                setUser(response.data);
+            } catch (error) {
+                console.error('Error fetching user:', error.response?.data || error);
+            }
+        };
+        fetchUser();
+    }, []);
+    return user;
+  }
+  UserName();
   return (
     <nav className="bg-white border-b border-gray-200">
       <div className="container mx-auto px-4">
@@ -55,7 +78,7 @@ const Navbar = () => {
                 <div className="absolute top-12 right-0 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
                   <div className="p-4 flex items-center gap-2 border-b border-gray-100">
                     <User className="h-6 w-6 text-gray-500" />
-                    <span className="text-sm font-medium">User Name</span>
+                    <span className="text-sm font-medium">{user.username}</span>
                   </div>
                   <ul className="py-2">
                     <li className="px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
