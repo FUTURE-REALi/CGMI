@@ -13,7 +13,7 @@ app.use(cors());
 app.use(cookieParser());
 
 
-import connectDB from './src/config/db.js';
+import connectDB from './src/db/db.js';
 connectDB();
 
 
