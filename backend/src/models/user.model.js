@@ -57,10 +57,10 @@ const userSchema = new Schema({
         { type: Schema.Types.ObjectId, ref: 'Contest', default: [] }
     ],
     friends: [
-        { type: Schema.Types.ObjectId, ref: 'User', default: [] }
+        { type: Schema.Types.ObjectId, ref: 'user', default: [] }
     ],
     requests: [
-        { type: Schema.Types.ObjectId, ref: 'User' }
+        { type: Schema.Types.ObjectId, ref: 'user' }
     ],
     notifications: [
         { type: Schema.Types.ObjectId, ref: 'Notification' , default: [] }
@@ -98,22 +98,16 @@ userSchema.methods.isFriendWith = async function(userId) {
 
 userSchema.pre('save', async function(next) {
     if (!this.isModified('password')) {
-        next();
+        return next();
     }
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
-    return next();
+    console.log('Hashed password during save:', this.password);
+    next();
 });
 
-userSchema.methods.matchPassword = async function(enteredPassword) {
-    return await bcrypt.compare(enteredPassword, this.password);
+userSchema.methods.comparePassword = async function (candidatePassword) {
+    return await bcrypt.compare(candidatePassword, this.password);
 };
-
-userSchema.statics.hashPassword = async function(password) {
-    const salt = await bcrypt.genSalt(10);
-    return await bcrypt.hash(password, salt);
-};
-
-
 
 export const userModel = mongoose.model('user', userSchema);

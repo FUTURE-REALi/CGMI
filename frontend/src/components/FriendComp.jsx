@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Search } from 'lucide-react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -7,17 +7,7 @@ import { useContext } from 'react';
 const FriendComp = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [activeTab, setActiveTab] = useState('friends');
-
-    const friends = [
-        { name: "Alice", status: "Online" },
-        { name: "Bob", status: "Offline" },
-    ];
-    const [friendsList, setFriendsList] = useState(friends);
-
-    const addFriend = (newFriend) => {
-        setFriendsList([...friendsList, newFriend]);
-    };
-
+    const [friendsList, setFriendsList] = useState([]);
     const [friendUserName, setAddFriend] = useState('');
 
     const { user,setUser } = useContext(UserDataContext);
@@ -63,6 +53,25 @@ const FriendComp = () => {
             setAddFriend('');
         }
     }
+
+    const handleGetFriends = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/users/getfriends`,{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if (response.status === 200) {
+                setFriendsList(response.data); // Set the friends list with the fetched data
+            }
+        } catch (error) {
+            console.error("Error fetching friends:", error);
+        }
+    };
+    useEffect(() => {
+        handleGetFriends();
+    }, [friendsList]);
     
 
     return (
@@ -71,13 +80,7 @@ const FriendComp = () => {
                 <button onClick={() => setActiveTab('friends')} className="border-b-2 border-blue-500">
                     Friends
                 </button>
-                <button onClick={
-                    () => {
-                        setActiveTab('addfriend')
-                        reqHandleSubmit()
-                    }
-
-                } className="border-b-2 border-blue-500">
+                <button onClick={() => setActiveTab('addfriend')} className="border-b-2 border-blue-500">
                     Add Friend
                 </button>
                 <button onClick={() => setActiveTab('requests')} className="border-b-2 border-blue-500">
@@ -94,17 +97,20 @@ const FriendComp = () => {
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
-                    <ul>
-                        {friends
-                            .filter(friend => friend.name.toLowerCase().includes(searchTerm.toLowerCase()))
-                            .map(friend => (
-                                <li key={friend.name} className="p-2 cursor-pointer flex items-center">
-                                    <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                                    <div>{friend.name}</div>
-                                    <div className="ml-auto">{friend.status}</div>
-                                </li>
-                            ))}
-                    </ul>
+                    {Array.isArray(friendsList) && friendsList.length > 0 ? (
+                        <ul>
+                            {friendsList
+                                .map((friend, index) => (
+                                    <li key={index} className="p-2 cursor-pointer flex items-center">
+                                        <div className="mr-2"><h1>{friend}</h1></div>
+                                        {/* <div className="ml-auto">{friend.status}</div> */}
+                                    </li>
+                                ))
+                            }
+                        </ul>
+                    ) : (
+                        <p>No friends found.</p>
+                    )}
                 </div>
             )}
 

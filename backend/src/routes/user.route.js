@@ -30,6 +30,6 @@ loginUser
 
 router.get('/profile', authUser, getUserProfile);
 router.get('/logout', authUser,logoutUser);
-router.get('/getfriend', authUser, getFriends);
+router.get('/getfriends', authUser, getFriends);
 router.post('/addfriend', authUser, addFriend);
 export default router;

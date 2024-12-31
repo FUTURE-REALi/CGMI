@@ -29,37 +29,45 @@ const Calendar = () => {
   const emptyDays = Array.from({ length: firstDayOfMonth }, () => null);
 
   return (
-    <div className="flex justify-end">
-      <div className="max-w-xs mr-60 p-3 bg-white shadow-lg rounded-lg">
-        <div className="flex justify-between items-center mb-3">
+    <div className="w-full h-full flex justify-center items-center">
+      <div className="w-full h-full p-4 bg-white shadow-md rounded-lg">
+        {/* Header with Month and Year */}
+        <div className="flex justify-between items-center mb-4">
           <button
             onClick={handlePrevMonth}
-            className="p-1 bg-gray-200 hover:bg-gray-300 rounded"
+            className="p-2 bg-gray-200 hover:bg-gray-300 rounded"
           >
+            &#8249; {/* Left Arrow */}
           </button>
           <h2 className="text-lg font-bold">
             {currentDate.toLocaleString("default", { month: "long" })} {year}
           </h2>
           <button
             onClick={handleNextMonth}
-            className="p-1 bg-gray-200 hover:bg-gray-300 rounded"
+            className="p-2 bg-gray-200 hover:bg-gray-300 rounded"
           >
+            &#8250; {/* Right Arrow */}
           </button>
         </div>
-        <div className="grid grid-cols-7 gap-1 text-center font-medium text-gray-600 text-sm">
+
+        {/* Days of the Week */}
+        <div className="grid grid-cols-7 gap-2 text-center font-semibold text-gray-700">
           {daysOfWeek.map((day) => (
-            <div key={day}>{day}</div>
+            <div key={day} className="uppercase text-sm">
+              {day}
+            </div>
           ))}
         </div>
 
-        <div className="grid grid-cols-7 gap-1 mt-1">
+        {/* Calendar Days */}
+        <div className="grid grid-cols-7 gap-2 mt-2">
           {emptyDays.map((_, index) => (
             <div key={index}></div>
           ))}
           {days.map((day) => (
             <div
               key={day}
-              className="p-1 text-center bg-gray-100 rounded hover:bg-blue-200 text-sm"
+              className="flex justify-center items-center p-4 bg-gray-100 rounded hover:bg-blue-300 cursor-pointer text-sm font-medium"
             >
               {day}
             </div>

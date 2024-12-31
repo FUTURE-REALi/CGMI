@@ -9,8 +9,8 @@ import UserLogout from './pages/UserLogout';
 import Navbar from './components/NavBar';
 import Message from './components/Message';
 import LeaderBoard from './pages/LeaderBoard'; 
-import Calendar from './pages/Calendar';
-import ProblemsSolved from './pages/ProblemsSolved'; 
+import Calendar from './components/Calendar';
+import ProblemsSolved from './components/ProblemsSolved'; 
 
 const App = () => {
   return (
@@ -26,8 +26,6 @@ const App = () => {
           <Route path="/home" element= {
             <UserProtectedWrapper>
               <HomePage/>
-              <Calendar/>
-              <ProblemsSolved/>
             </UserProtectedWrapper>
           } />
           <Route path="/logout" element= {
